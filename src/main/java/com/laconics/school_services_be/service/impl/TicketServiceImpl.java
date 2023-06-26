@@ -152,4 +152,17 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.findTicketBYStatusAndUser(s, idUser);
     }
 
+    @Override
+    public Ticket setStatusOfTicket(Integer id, String status) throws BusinessException {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Ticket with id " + id +" doesn't exist!"));
+        if (status != null){
+            String st = status.toUpperCase();
+            ticket.setStatus(Status.valueOf(st));
+            ticket = ticketRepository.save(ticket);
+        }
+
+        return ticket;
+    }
+
 }

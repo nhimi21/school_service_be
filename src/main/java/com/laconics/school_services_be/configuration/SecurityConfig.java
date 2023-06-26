@@ -46,7 +46,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/user/login", "/api/user/register").permitAll();
                     auth.requestMatchers("/api/piece/add", "/api/piece/update/", "/api/piece/delete/**",
-                            "/api/ticket/delete/**", "/api/ticket/status", "/api/user/findAll").hasRole("ADMIN");
+                            "/api/ticket/delete/**", "/api/ticket/findByStatusAndIdUser",
+                            "/api/ticket/changeStatus","/api/user/findAll").hasRole("ADMIN");
                     auth.requestMatchers("/api/user/**", "/api/piece/**",
                             "/api/ticket/**", "/api/laptop/**").authenticated();})
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

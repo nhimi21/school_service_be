@@ -6,6 +6,7 @@ import com.laconics.school_services_be.exception.BusinessException;
 import com.laconics.school_services_be.model.User;
 import com.laconics.school_services_be.repository.UserRepository;
 import com.laconics.school_services_be.service.UserService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,19 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepository.findUsersByRole(Roles.ROLE_USER);
     }
+
+    @PostConstruct
+    public void init(){
+        Optional<User> user = userRepository.findByUsername("admin");
+        if (user.isEmpty()){
+            User userAdmin = new User();
+            userAdmin.setUsername("admin");
+            userAdmin.setPassword(passwordEncoder.encode("admin"));
+            userAdmin.setFullName("Administrator");
+            userAdmin.setRole(Roles.ROLE_ADMIN);
+            userRepository.save(userAdmin);
+        }
+    }
+
 }
 

@@ -10,7 +10,7 @@ public interface LaptopService {
 
     List<Laptop> getAllLaptops(String username);
 
-    Laptop updateLaptop(Laptop entity) throws BusinessException;
+    Laptop updateLaptop(Laptop entity, String username) throws BusinessException;
 
     Laptop getLaptopById(Integer id) throws BusinessException;
 

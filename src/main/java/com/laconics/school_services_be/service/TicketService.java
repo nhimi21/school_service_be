@@ -19,4 +19,6 @@ public interface TicketService {
 
     List<Ticket> getByStatusAndUser(Integer idUser, String status);
 
+    Ticket setStatusOfTicket(Integer id, String status) throws BusinessException;
+
 }

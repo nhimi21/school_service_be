@@ -13,4 +13,5 @@ public interface LaptopRepository extends JpaRepository<Laptop, Integer> {
 
     @Query(value = "select l from Laptop l where l.laptopId=?1 and l.userId=?2")
     Laptop findByIdAndOwner(Integer laptopId, Integer userId);
+
 }

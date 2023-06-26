@@ -30,13 +30,20 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
-    public Laptop updateLaptop(Laptop entity) throws BusinessException {
-        Laptop laptopDB = laptopRepository.findById(entity.getLaptopId())
-                .orElseThrow(() -> new BusinessException("Laptop doesn't exist!"));
-        laptopDB.setDescription(entity.getDescription());
-        laptopDB.setBrandName(entity.getBrandName());
-
-        return laptopRepository.save(laptopDB);
+    public Laptop updateLaptop(Laptop entity, String username) throws BusinessException {
+        Optional<User> user = userRepository.findByUsername(username);
+        Laptop laptop = new Laptop();
+        if (user.isPresent()){
+            laptop = laptopRepository.findByIdAndOwner(entity.getLaptopId(), user.get().getUserId());
+            if (laptop != null){
+                laptop.setDescription(entity.getDescription());
+                laptop.setBrandName(entity.getBrandName());
+                laptopRepository.save(laptop);
+            } else {
+                throw new BusinessException("Laptop with id " + entity.getLaptopId() +" doesn't exist" );
+            }
+        }
+        return laptop;
     }
 
     @Override

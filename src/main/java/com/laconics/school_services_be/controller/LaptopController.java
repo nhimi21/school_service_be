@@ -29,9 +29,11 @@ public class LaptopController {
         return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
-    @GetMapping("/update")
-    public ResponseEntity<Laptop> updateLaptop(@Valid @RequestBody Laptop entity) throws BusinessException {
-        Laptop laptop = laptopService.updateLaptop(entity);
+    @PutMapping("/update")
+    public ResponseEntity<Laptop> updateLaptop(@Valid @RequestBody Laptop entity,
+                                               Authentication auth) throws BusinessException {
+        UserInfoDetails user = (UserInfoDetails) auth.getPrincipal();
+        Laptop laptop = laptopService.updateLaptop(entity, user.getUsername());
         return ResponseEntity.ok(laptop);
     }
 

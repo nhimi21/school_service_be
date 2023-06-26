@@ -56,12 +56,20 @@ public class TicketController {
     }
 
 
-    @GetMapping("/status")
+    @GetMapping("/findByStatusAndIdUser")
     public ResponseEntity<List<Ticket>> findByStatusAndUser(
             @RequestParam(name = "userID", required = false) Integer idUser,
             @RequestParam(name = "status", required = false) String status){
         List<Ticket> tickets = ticketService.getByStatusAndUser(idUser, status);
         return ResponseEntity.ok(tickets);
+    }
+
+    @GetMapping("/changeStatus")
+    public ResponseEntity<Ticket> changeStatusOfTicket(
+            @RequestParam(name = "idTicket") Integer id,
+            @RequestParam(name = "status", required = false) String status) throws BusinessException {
+        Ticket ticket = ticketService.setStatusOfTicket(id, status);
+        return ResponseEntity.ok(ticket);
     }
 
 }
