@@ -50,8 +50,10 @@ public class LaptopController {
     }
 
     @DeleteMapping("/delete/{laptopId}")
-    public ResponseEntity<String> deleteLaptop(@PathVariable("laptopId") Integer id) throws BusinessException {
-        laptopService.deleteLaptopById(id);
+    public ResponseEntity<String> deleteLaptop(@PathVariable("laptopId") Integer id,
+                                               Authentication auth) throws BusinessException {
+        UserInfoDetails user = (UserInfoDetails) auth.getPrincipal();
+        laptopService.deleteLaptopById(id, user.getUsername());
         return ResponseEntity.ok("Ticket deleted successfully");
     }
 

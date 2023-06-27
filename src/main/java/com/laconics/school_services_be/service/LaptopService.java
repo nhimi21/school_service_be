@@ -14,6 +14,6 @@ public interface LaptopService {
 
     Laptop getLaptopById(Integer id) throws BusinessException;
 
-    void deleteLaptopById(Integer id) throws BusinessException;
+    void deleteLaptopById(Integer id, String username) throws BusinessException;
 
 }

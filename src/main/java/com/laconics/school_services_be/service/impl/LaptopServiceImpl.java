@@ -53,10 +53,21 @@ public class LaptopServiceImpl implements LaptopService {
     }
 
     @Override
-    public void deleteLaptopById(Integer id) throws BusinessException {
-        Laptop laptop = laptopRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Laptop with id " + id +" doesn't exist!"));
-        laptopRepository.delete(laptop);
+    public void deleteLaptopById(Integer id, String username) throws BusinessException {
+        Optional<User> user = userRepository.findByUsername(username);
+        Laptop laptop;
+        if (user.isPresent()){
+            Roles role = user.get().getRole();
+            if (role.equals(Roles.ROLE_ADMIN)){
+                laptop = laptopRepository.findById(id).orElse(null);
+            } else {
+                laptop = laptopRepository.findByIdAndOwner(id, user.get().getUserId());
+            }
+            if (laptop == null){
+                throw new BusinessException("Laptop with id " + id +" doesn't exist!");
+            } else
+                laptopRepository.delete(laptop);
+        }
     }
 
     @Override

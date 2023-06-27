@@ -44,7 +44,7 @@ public class TicketController {
         return ticketService.findAllTicket(user.getUsername());
     }
 
-    @GetMapping("{ticketId}")
+    @GetMapping("/findByTicketId/{ticketId}")
     public Ticket getTicketById(@PathVariable("ticketId") Integer id) throws BusinessException {
         return ticketService.findTicketById(id);
     }
